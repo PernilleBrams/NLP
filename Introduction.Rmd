@@ -1,0 +1,90 @@
+---
+title: "Introduction"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+https://www.vikparuchuri.com/natural-language-processing-tutorial/
+
+## First steps
+
+Computers can’t directly understand text like humans can.
+
+Humans automatically break down sentences into units of meaning.
+
+In this case, we have to first explicitly show the computer how to do this, that is, how to break down the sentences into units of meaning. This process is called tokenization.
+
+When we have done tokenization, we can convert these tokens/units of meaning into a matrix (bag of words model, where the order of them does not matter) 
+
+When we have this matrix, we can use a machine learning algorithm to train a model and predict scores.
+
+## The algorithm
+The algorithm is going to be taking in a lot of numeric values. We will extract these numeric values from the text, e.g. number of times that the word "apple" apears in a piece of text. This number of times will be a FEATURE. 
+
+Features like these are found in the input text, and then they are aggregated on a per-text / per-document basis into feature vectors. 
+
+Multiple feature vectors are generally placed together in a feature matrix, where each row represents a piece of text. 
+
+The algorithm finds out for us which of these features are relevant to keep - and which are not. 
+
+Relevance is determined by whether or not the features differentiate a high scoring text from a low scoring one. 
+We want to feed features that are specific - so they measure as few things as possible - and relevant.
+
+## Tokenization of sentence
+Can be done with n-grams extraction. N-grams are sequences of words, so you retain some information in your bag of words model about word order - fx having a 2-gram would be two words together. 
+```{r}
+text <- "I like solving interesting problems"
+text
+
+text_s <- strsplit(text, " ") #split when space
+text_s
+
+
+```
+
+## Bag of words model
+The bag of words model is a common way to represent documents in matrix form.
+
+We construct an nxt document-term matrix, where n is the number of documents, and t is the number of unique terms.
+
+Each column represents a unique term, and each cell i,j represents how many of term j are in document i.
+
+We are using a simple term frequency bag of words. Other techniques,  such as term frequency - inverse document frequency (tf-idf) would have  something other than just counts in the cells.
+
+## Bag of words overview
+Ordering of words within a document is not taken into account in the basic bag of words model.
+
+Once we have our document-term matrix, we can use machine learning techniques.
+
+I have outlined a very simple framework, but it can easily be built on and extended.
+
+The bag of words is a foundational block for a lot of more advanced techniques.
+
+What we are doing is extracting potentially relevant information in a manner the computer can utilize (ie numbers)
+
+## Minimizing distances between vectors
+We want to minimize the distance between two similar feature vectors, because we want the same response to get the same score from our algorithm.
+
+For example, the below text fragments are substantially similar:
+Bill wanted to grow up and be a Doctor.
+bill wnted to gorw up and a be a doctor!
+
+However, the simple tokenization we outlined above will not catch this.
+
+Spell correction using aspell or Peter Norvig’s method.
+Lowercase input strings.
+
+## Preserving information
+It is important to preserve as much of the input information as we can.
+
+When we start to spell correct or lowercase strings, we lose information.
+
+We may be lowercasing the proper name Bill to the word bill.
+
+If we are scoring an essay, and spelling is an important criteria, we don’t want to lose that.
+
+
+
